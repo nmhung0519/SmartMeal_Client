@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:title="Đặt trước" android:id="@+id/status_booked" ></item>
+    <item android:title="Bàn trống" android:id="@+id/status_empty"></item>
+</menu>

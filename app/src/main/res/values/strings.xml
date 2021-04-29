@@ -1,23 +1,22 @@
 <resources>
-    <string name="app_name">Smart Meal</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="login_text">Đăng nhập</string>
+    <string name="app_name">Smart meal</string>
+    <string name="log_in">LOG IN</string>
+    <string name="sign_up">sign up</string>
     <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="your_name">your name</string>
+    <string name="password">password</string>
+    <string name="avatar">avatar</string>
+    <string name="sign_upp">SIGN UP</string>
+
+    <string-array name="account_type">
+        <item>Nhân viên</item>
+        <item>Quản lý</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="danh_sach_ban">Danh sach ban</string>
+    <string name="ban_trong">Bàn trống</string>
+    <string name="co_khach">Có Khách</string>
+    <string name="dat_truoc">Đặt trước</string>
+    <string name="title_activity_login">Đăng nhập</string>
 </resources>
