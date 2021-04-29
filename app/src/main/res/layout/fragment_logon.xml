@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/signUpLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
+
+        <EditText
+            android:id="@+id/usernameEditTextSignUp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/info_input"
+            android:hint="Tên đăng nhập"
+            android:inputType="text"
+            android:paddingHorizontal="15dp"
+            android:singleLine="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="20dp" />
+
+        <EditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/info_input"
+            android:hint="Số điện thoại"
+            android:inputType="number"
+            android:paddingHorizontal="15dp"
+            android:singleLine="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/usernameEditTextSignUp" />
+
+        <TextView
+            android:id="@+id/textViewAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Loại người dùng: "
+            android:textColor="#fff"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@id/phoneNumber"
+            app:layout_constraintTop_toBottomOf="@id/phoneNumber" />
+
+        <Spinner
+            android:id="@+id/account_type"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="30dp"
+            android:backgroundTint="#fff"
+            app:layout_constraintStart_toEndOf="@id/textViewAccount"
+            app:layout_constraintTop_toTopOf="@id/textViewAccount" />
+
+        <EditText
+            android:id="@+id/passwordEditTextSignUp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/info_input"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:paddingHorizontal="15dp"
+            android:singleLine="true"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_type" />
+
+        <EditText
+            android:id="@+id/retypePass"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/info_input"
+            android:hint="Nhập lại mật khẩu"
+            android:inputType="textPassword"
+            android:paddingHorizontal="15dp"
+            android:singleLine="true"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordEditTextSignUp" />
+
+        <CheckBox
+            android:id="@+id/show_hide_password_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:buttonTint="#fff"
+            android:text="Hiện mật khẩu"
+            android:textColor="#fff"
+            app:layout_constraintLeft_toLeftOf="@id/retypePass"
+            app:layout_constraintTop_toBottomOf="@id/retypePass" />
+
+        <Button
+            android:id="@+id/signUpButtoncommit"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/loginbutton"
+            android:padding="20dp"
+            android:text="Đăng ký"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/show_hide_password_signup" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

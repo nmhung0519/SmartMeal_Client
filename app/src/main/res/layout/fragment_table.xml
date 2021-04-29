@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:clickable="true"
+
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/textViewTableTitle"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/sriracha"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/danh_sach_ban"
+            android:textColor="#fff"
+
+
+            android:textSize="40sp" />
+
+        <LinearLayout
+            android:id="@+id/table_type"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/textViewTableTitle"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <RelativeLayout
+                    android:id="@+id/empty_table_color"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorEmptyTable" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/value_20dp"
+                    android:layout_toEndOf="@id/empty_table_color"
+                    android:gravity="center_vertical"
+                    android:text="@string/ban_trong"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/value_20dp"
+                android:paddingRight="@dimen/value_20dp">
+
+                <RelativeLayout
+                    android:id="@+id/filled_table_color"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorFilledTable" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/value_20dp"
+                    android:layout_marginRight="@dimen/value_20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/co_khach"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/value_20dp"
+                android:paddingRight="@dimen/value_20dp">
+
+                <RelativeLayout
+                    android:id="@+id/booked_table_color"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorBookedTable" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/value_20dp"
+                    android:layout_toEndOf="@id/booked_table_color"
+                    android:gravity="center_vertical"
+                    android:text="@string/dat_truoc"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <GridView
+
+            android:id="@+id/gridViewTable"
+            android:layout_width="match_parent"
+
+            android:layout_height="0dp"
+            android:layout_below="@id/table_type"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginTop="5dp"
+            android:numColumns="4"
+            android:padding="10dp"
+            android:paddingTop="20dp"
+            android:verticalSpacing="25dp"
+            tools:listitem="@layout/table_item" />
+
+    </RelativeLayout>
+</layout>

@@ -2,12 +2,15 @@ package android.example.smartmeal
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.example.smartmeal.login.LoginActivity
+import android.example.smartmeal.table.FragmentTable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import com.microsoft.signalr.HubConnectionState
@@ -23,32 +26,17 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this.baseContext, "Null", Toast.LENGTH_SHORT).show()
         }
         setContentView(R.layout.activity_main)
-        hubConnection = HubConnectionBuilder.create("http://192.168.1.190/movehub").build()
-
-        hubConnection.on("ReceiveNewPosition", {newX, newY ->
-            view_move.x = newX!!
-            view_move.y = newY!!
-            Toast.makeText(this.baseContext, "ReceiveNewPosition x:" + newX + " y: " + newY, Toast.LENGTH_SHORT)
-        }, Float::class.java, Float::class.java)
-
-        btn_start = findViewById(R.id.btn_start)
-        view_move = findViewById(R.id.view_move)
-
-        btn_start.setOnClickListener{
+        if (false) {
             val intent = Intent(this, LoginActivity::class.java).apply {}
             startActivity(intent)
+            return
         }
 
-        view_move.setOnTouchListener {
-            view, motionEvent ->
-            val x = motionEvent.rawX
-            val y = motionEvent.rawY
+        val fragmentManager: FragmentManager =  supportFragmentManager
 
-            view.x = x
-            view.y = y
+        val fragmentTable = FragmentTable()
 
-            if (hubConnection.connectionState == HubConnectionState.CONNECTED)
-                hubConnection.send("MoveViewFromServer", x, y)
-        true }
+        fragmentManager.beginTransaction().add(R.id.fragment_container, fragmentTable, "Table").commit()
+
     }
 }
