@@ -13,30 +13,6 @@
         
         android:layout_above="@+id/navbar"
         >
-
-
-        <!-- <fragment
-             android:id="@+id/fragmentHomePage"
-             android:name="com.example.myapplication.FragmentHomePage"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" />
-
-         <fragment
-             android:id="@+id/fragmentTableOrder"
-             android:name="com.example.myapplication.FragmentTableOrder"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" />
-         <fragment
-             android:id="@+id/fragmentMenu"
-             android:name="com.example.myapplication.FragmentMenu"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" />
-         <fragment
-             android:id="@+id/fragmentAccount"
-
-             android:name="com.example.myapplication.FragmentAccount"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" />-->
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

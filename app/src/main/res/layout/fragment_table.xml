@@ -111,7 +111,6 @@
         </LinearLayout>
 
         <GridView
-
             android:id="@+id/gridViewTable"
             android:layout_width="match_parent"
 
