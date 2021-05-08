@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_2 -> {
                     Toast.makeText(baseContext, "2", Toast.LENGTH_SHORT).show()
+                    fragTable.InsertTable()
                 }
                 R.id.nav_3 -> {
                     Toast.makeText(baseContext, "3", Toast.LENGTH_SHORT).show()
@@ -54,18 +55,18 @@ class MainActivity : AppCompatActivity() {
             true
         }
         //Tạo kết nối đến Main Hub (Để nhận notify)
-        hubConnection = HubConnectionBuilder.create("http://10.0.2.2/hub").build()
-
-        hubConnection.on("Notify", {objId, objType, actType, content, createdTime ->
-            Toast.makeText(this.baseContext, content , Toast.LENGTH_SHORT).show()
-        }, Int::class.java, String::class.java, String::class.java, String::class.java, Timestamp::class.java)
-
-        try {
-            hubConnection.start()
-        }
-        catch (ex: Exception) {
-            val tmp = ex.message
-        }
+//        hubConnection = HubConnectionBuilder.create("http://172.20.10.3/hub").build()
+//
+//        hubConnection.on("Notify", {objId, objType, actType, content, createdTime ->
+//            Toast.makeText(this.baseContext, content , Toast.LENGTH_SHORT).show()
+//        }, Int::class.java, String::class.java, String::class.java, String::class.java, Timestamp::class.java)
+//
+//        try {
+//            hubConnection.start()
+//        }
+//        catch (ex: Exception) {
+//            val tmp = ex.message
+//        }
 
     }
 

@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:padding="13dp"
+            android:id="@+id/table_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/table_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
-    <ImageView
-        android:padding="13dp"
-        android:id="@+id/table_img"
-        android:layout_width="50dp"
-
-        android:layout_height="50dp"
-
-        android:src="@drawable/table_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/table_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ban so 1"
-        android:textStyle="bold"
-
-
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@id/table_img"
-        app:layout_constraintEnd_toEndOf="@id/table_img"
-        app:layout_constraintTop_toBottomOf="@id/table_img" />
-
-   <!-- <TextView
-        android:id="@+id/chair_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Só lượng ghế"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@id/table_img"
-        app:layout_constraintEnd_toEndOf="@id/table_img"
-        app:layout_constraintTop_toBottomOf="@id/table_name" />
-        -->
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/table_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@id/table_img"
+            app:layout_constraintEnd_toEndOf="@id/table_img"
+            app:layout_constraintTop_toBottomOf="@id/table_img" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -30,9 +30,11 @@ class FragmentLogin : Fragment() {
     ): View? {
         val binding: FragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         val viewModelLogin = ViewModelLogin()
+        binding.txtUsername.setText("admin")
+        binding.txtPassword.setText("admin123")
         binding.viewModelLogin = viewModelLogin
         binding.btnLogin.setOnClickListener {
-            val url = "http://10.0.2.2/Account/Login"
+            val url = "http://172.20.10.3/Account/Login"
             val username = binding.txtUsername.text.toString()
             val password = binding.txtPassword.text.toString()
             val content = "{ \"Username\": \"${username}\", \"Password\": \"${md5(password)}\"}"
