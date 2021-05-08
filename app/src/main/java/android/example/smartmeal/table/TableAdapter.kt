@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class TableAdapter(private val onClick: (TableModel) -> Unit) :
-    ListAdapter<TableModel, TableAdapter.TableViewHolder>(FlowerDiffCallback) {
+    ListAdapter<TableModel, TableAdapter.TableViewHolder>(TableDiffCallback) {
 
     class TableViewHolder(itemView: View, val onClick: (TableModel) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
@@ -30,7 +30,7 @@ class TableAdapter(private val onClick: (TableModel) -> Unit) :
         fun bind(table: TableModel) {
             currentTable = table
 
-            tableName.text = table.tableName
+            tableName.text = table.TableName
         }
     }
 
@@ -45,17 +45,16 @@ class TableAdapter(private val onClick: (TableModel) -> Unit) :
     override fun onBindViewHolder(holder: TableViewHolder, position: Int) {
         val table = getItem(position)
         holder.bind(table)
-
     }
 }
 
-object FlowerDiffCallback : DiffUtil.ItemCallback<TableModel>() {
+object TableDiffCallback : DiffUtil.ItemCallback<TableModel>() {
     override fun areItemsTheSame(oldItem: TableModel, newItem: TableModel): Boolean {
-        return false
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: TableModel, newItem: TableModel): Boolean {
-        return false;
+        return oldItem.Id == newItem.Id
     }
 
 }
