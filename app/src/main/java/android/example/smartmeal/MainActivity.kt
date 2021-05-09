@@ -2,7 +2,6 @@ package android.example.smartmeal
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.example.smartmeal.home.FragmentHome
 import android.example.smartmeal.login.LoginActivity
 import android.example.smartmeal.table.FragmentTable
 import androidx.appcompat.app.AppCompatActivity
@@ -23,33 +22,28 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btn_start: Button
     private lateinit var view_move: View
     private lateinit var navbar: BottomNavigationView
-    private var token: String? = null
-    private lateinit var  fragHome: FragmentHome
-    private lateinit var fragTable: FragmentTable
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         val intent = getIntent()
         val userid = intent.getIntExtra("id", 0)
         val username = intent.getStringExtra("username")
         val fullname = intent.getStringExtra("fullname")
-        token = intent.getStringExtra("token")
+        val token = intent.getStringExtra("token")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fragmentManager: FragmentManager =  supportFragmentManager
-        var bundle = Bundle()
-        bundle.putString("token", token)
-        fragHome = FragmentHome()
-        fragTable = FragmentTable()
-        fragTable.arguments = bundle
-        fragmentManager.beginTransaction().add(R.id.fragment_container, fragHome, "Home").commit()
+        val fragTable = FragmentTable()
+
+        fragmentManager.beginTransaction().add(R.id.fragment_container, fragTable, "Table").commit()
         navbar = findViewById(R.id.navbar)
         navbar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_1 -> {
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragHome, "Home").commit()
+                    Toast.makeText(baseContext, "1", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_2 -> {
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragTable, "Table").commit()
+                    Toast.makeText(baseContext, "2", Toast.LENGTH_SHORT).show()
+                    fragTable.InsertTable()
                 }
                 R.id.nav_3 -> {
                     Toast.makeText(baseContext, "3", Toast.LENGTH_SHORT).show()
@@ -61,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         //Tạo kết nối đến Main Hub (Để nhận notify)
-//        hubConnection = HubConnectionBuilder.create(Common.DOMAIN + "/hub").build()
+//        hubConnection = HubConnectionBuilder.create("http://172.20.10.3/hub").build()
 //
 //        hubConnection.on("Notify", {objId, objType, actType, content, createdTime ->
 //            Toast.makeText(this.baseContext, content , Toast.LENGTH_SHORT).show()

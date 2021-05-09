@@ -6,21 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class TableAdapter(private val onClick: (TableModel) -> Unit) :
     ListAdapter<TableModel, TableAdapter.TableViewHolder>(TableDiffCallback) {
-    private var isLastItem = false
-    private var _isDoneFirstLoad = MutableLiveData<Boolean>()
-    val isDoneFirstLoad: LiveData<Boolean>
-        get() = _isDoneFirstLoad
-    init {
-        _isDoneFirstLoad.value = false
-    }
+
     class TableViewHolder(itemView: View, val onClick: (TableModel) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val tableName: TextView = itemView.findViewById(R.id.table_name)
@@ -42,31 +34,18 @@ class TableAdapter(private val onClick: (TableModel) -> Unit) :
         }
     }
 
-    override fun onViewAttachedToWindow(holder: TableViewHolder) {
-        super.onViewAttachedToWindow(holder)
-    }
-
     /* Creates and inflates view and return FlowerViewHolder. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TableViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.table_item, parent, false)
-        return TableViewHolder(view, onClick).apply {
-            if (isLastItem) _isDoneFirstLoad.postValue(true)
-        }
+        return TableViewHolder(view, onClick)
     }
 
     /* Gets current flower and uses it to bind view. */
     override fun onBindViewHolder(holder: TableViewHolder, position: Int) {
-        if (position == itemCount - 1) isLastItem = true
         val table = getItem(position)
         holder.bind(table)
     }
-
-    override fun onFailedToRecycleView(holder: TableViewHolder): Boolean {
-        _isDoneFirstLoad.postValue(true)
-        return super.onFailedToRecycleView(holder)
-    }
-
 }
 
 object TableDiffCallback : DiffUtil.ItemCallback<TableModel>() {
