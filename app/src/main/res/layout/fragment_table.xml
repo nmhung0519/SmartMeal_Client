@@ -125,5 +125,26 @@
             android:verticalSpacing="25dp"
             tools:listitem="@layout/table_item" />
 
+<<<<<<< Updated upstream
     </RelativeLayout>
+=======
+        <RelativeLayout
+            android:id="@+id/loadingPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> Stashed changes
 </layout>

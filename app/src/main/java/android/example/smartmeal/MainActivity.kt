@@ -3,6 +3,7 @@ package android.example.smartmeal
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.example.smartmeal.login.LoginActivity
+import android.example.smartmeal.products.FragmentProduct
 import android.example.smartmeal.table.FragmentTable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btn_start: Button
     private lateinit var view_move: View
     private lateinit var navbar: BottomNavigationView
+<<<<<<< Updated upstream
+=======
+    private var token: String? = null
+    private lateinit var  fragHome: FragmentHome
+    private lateinit var fragTable: FragmentTable
+    private lateinit var fragProduct: FragmentProduct
+>>>>>>> Stashed changes
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         val intent = getIntent()
@@ -32,9 +40,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fragmentManager: FragmentManager =  supportFragmentManager
+<<<<<<< Updated upstream
         val fragTable = FragmentTable()
 
         fragmentManager.beginTransaction().add(R.id.fragment_container, fragTable, "Table").commit()
+=======
+        var bundle = Bundle()
+        bundle.putString("token", token)
+        fragHome = FragmentHome()
+        fragTable = FragmentTable()
+        fragTable.arguments = bundle
+        fragProduct = FragmentProduct()
+        fragProduct.arguments = bundle
+        fragmentManager.beginTransaction().add(R.id.fragment_container, fragHome, "Home").commit()
+>>>>>>> Stashed changes
         navbar = findViewById(R.id.navbar)
         navbar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -45,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(baseContext, "2", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_3 -> {
-                    Toast.makeText(baseContext, "3", Toast.LENGTH_SHORT).show()
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragProduct, "Product").commit()
                 }
                 R.id.nav_4 -> {
                     Toast.makeText(baseContext, "4", Toast.LENGTH_SHORT).show()

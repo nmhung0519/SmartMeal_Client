@@ -15,9 +15,42 @@ class FragmentTable : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+<<<<<<< Updated upstream
+=======
+        token = arguments?.getString("token")
+        tableViewModel = ViewModelProviders.of(this, TableViewModelFactory(context as Context, token)).get(TableViewModel::class.java)
+        var view = inflater.inflate(R.layout.fragment_table, container, false)
+        loadingPanel = view?.findViewById(R.id.loadingPanel)
+        //onLoading()
+        val tableAdapter = TableAdapter { flower -> adapterOnClick(flower) }
+        view?.findViewById<RecyclerView>(R.id.recyclerView)?.adapter = tableAdapter
+
+        tableViewModel.tables.observe(this.requireActivity(), Observer {
+            it?.let {
+                tableAdapter.submitList(it as MutableList<TableModel>)
+            }
+        })
+        tableAdapter.isDoneFirstLoad.observe(this.requireActivity(), Observer {
+            it?.let {
+                if (it) loaded()
+            }
+        })
+        return view
+    }
+>>>>>>> Stashed changes
 
         val binding: FragmentTableBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_table, container, false)
 
+<<<<<<< Updated upstream
+=======
+    fun loaded() {
+        //loadingPanel?.visibility = View.GONE
+    }
+
+    fun adapterOnClick(table: TableModel) {
+        Toast.makeText(context, table.TableName, Toast.LENGTH_SHORT).show()
+    }
+>>>>>>> Stashed changes
 
         return binding.root
     }
