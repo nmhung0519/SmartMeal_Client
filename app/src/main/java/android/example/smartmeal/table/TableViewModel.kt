@@ -17,6 +17,7 @@ class TableViewModel : ViewModel() {
     private val _tables = MutableLiveData<List<TableModel>>()
     val tables: LiveData<List<TableModel>>
             get() = _tables
+
     fun inserTable(table: TableModel) {
         var updatedList = tables.value?.toMutableList()
         try {
@@ -33,6 +34,21 @@ class TableViewModel : ViewModel() {
 
     fun setTable(listTable: List<TableModel>) {
         _tables.postValue(listTable)
+    }
+
+    fun updateTable(table: TableModel) {
+        var currentList = _tables.value?.toMutableList()
+        if (currentList == null) _tables.postValue(listOf(table))
+        else {
+            var currentTable: TableModel? = null
+            currentList.forEach { x ->
+                if (x.Id == table.Id) currentTable = x
+            }
+
+            if (currentTable != null) currentTable = table
+            else currentList.add(table)
+            _tables.postValue(currentList!!)
+        }
     }
 
 }

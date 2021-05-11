@@ -136,6 +136,7 @@
             android:layout_height="match_parent"
             android:background="#99000000"
             android:gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

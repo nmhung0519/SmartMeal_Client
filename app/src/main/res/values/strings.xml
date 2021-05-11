@@ -19,4 +19,7 @@
     <string name="co_khach">Có Khách</string>
     <string name="dat_truoc">Đặt trước</string>
     <string name="title_activity_login">Đăng nhập</string>
+    <string name="OrderTable">Đặt trước</string>
+    <string name="fillTable">Có khách</string>
+    <string name="payAction">Thanh Toán</string>
 </resources>

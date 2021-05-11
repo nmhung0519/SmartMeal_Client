@@ -1,6 +1,7 @@
 package android.example.smartmeal.table
 
 import android.example.smartmeal.R
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.Exception
 
-class TableAdapter(private val onClick: (TableModel) -> Unit) :
+class TableAdapter(private val onClick: (View?, TableModel) -> Unit) :
     ListAdapter<TableModel, TableAdapter.TableViewHolder>(TableDiffCallback) {
     private var isLastItem = false
     private var _isDoneFirstLoad = MutableLiveData<Boolean>()
@@ -21,15 +23,16 @@ class TableAdapter(private val onClick: (TableModel) -> Unit) :
     init {
         _isDoneFirstLoad.value = false
     }
-    class TableViewHolder(itemView: View, val onClick: (TableModel) -> Unit) :
+    class TableViewHolder(itemView: View, val onClick: (View?, TableModel) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val tableName: TextView = itemView.findViewById(R.id.table_name)
+        private val tableImg: ImageView = itemView.findViewById(R.id.table_img)
         private var currentTable: TableModel? = null
 
         init {
             itemView.setOnClickListener {
                 currentTable?.let {
-                    onClick(it)
+                    onClick(itemView, it)
                 }
             }
         }
@@ -39,6 +42,13 @@ class TableAdapter(private val onClick: (TableModel) -> Unit) :
             currentTable = table
 
             tableName.text = table.TableName
+            try {
+                tableImg.setBackgroundColor(Color.parseColor(table.color))
+            }
+            catch (ex: Exception) {
+                var a = ""
+            }
+
         }
     }
 

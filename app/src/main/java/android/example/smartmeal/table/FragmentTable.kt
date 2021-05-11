@@ -5,11 +5,14 @@ import android.example.smartmeal.R
 import android.example.smartmeal.databinding.FragmentTableBinding
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.inflate
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -32,8 +35,8 @@ class FragmentTable : Fragment() {
         tableViewModel = ViewModelProviders.of(this, TableViewModelFactory(context as Context, token)).get(TableViewModel::class.java)
         var view = inflater.inflate(R.layout.fragment_table, container, false)
         loadingPanel = view?.findViewById(R.id.loadingPanel)
-        onLoading()
-        val tableAdapter = TableAdapter { flower -> adapterOnClick(flower) }
+        //onLoading()
+        val tableAdapter = TableAdapter { view, table -> adapterOnClick(view, table) }
         view?.findViewById<RecyclerView>(R.id.recyclerView)?.adapter = tableAdapter
 
         tableViewModel.tables.observe(this.requireActivity(), Observer {
@@ -48,7 +51,6 @@ class FragmentTable : Fragment() {
         })
         return view
     }
-
     fun onLoading() {
         loadingPanel?.visibility = View.VISIBLE
     }
@@ -57,11 +59,15 @@ class FragmentTable : Fragment() {
         loadingPanel?.visibility = View.GONE
     }
 
-    fun adapterOnClick(table: TableModel) {
+    fun adapterOnClick(view: View?, table: TableModel) {
         Toast.makeText(context, table.TableName, Toast.LENGTH_SHORT).show()
+        val popupMenu: PopupMenu = PopupMenu(this.activity, view)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu_table, popupMenu.menu)
+        popupMenu.menu.findItem(R.id.payTable).setVisible(false)
+        popupMenu.show()
     }
 
-    fun InsertTable() {
-        tableViewModel.inserTable(TableModel(2, "Bàn 2"))
+    fun updateTable(table: TableModel) {
+        tableViewModel.updateTable(table)
     }
 }
