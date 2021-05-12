@@ -1,10 +1,7 @@
 package android.example.smartmeal.login
 
 import android.content.Intent
-import android.example.smartmeal.MainActivity
-import android.example.smartmeal.R
-import android.example.smartmeal.ResponseModel
-import android.example.smartmeal.User
+import android.example.smartmeal.*
 import android.example.smartmeal.databinding.FragmentLoginBinding
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,9 +27,11 @@ class FragmentLogin : Fragment() {
     ): View? {
         val binding: FragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         val viewModelLogin = ViewModelLogin()
+        binding.txtUsername.setText("admin")
+        binding.txtPassword.setText("admin123")
         binding.viewModelLogin = viewModelLogin
         binding.btnLogin.setOnClickListener {
-            val url = "http://10.0.2.2/Account/Login"
+            val url = Common.DOMAIN + "/Account/Login"
             val username = binding.txtUsername.text.toString()
             val password = binding.txtPassword.text.toString()
             val content = "{ \"Username\": \"${username}\", \"Password\": \"${md5(password)}\"}"
@@ -74,12 +73,12 @@ class FragmentLogin : Fragment() {
             viewModelLogin.user.observe(this, Observer {
                 if (it != null) {
                     val mainAct = Intent(activity, MainActivity::class.java)
-                    mainAct.putExtra("id", it.id)
-                    mainAct.putExtra("username", it.username)
-                    mainAct.putExtra("fullname", it.fullname)
-                    mainAct.putExtra("age", it.age)
-                    mainAct.putExtra("sex", it.sex)
-                    mainAct.putExtra("token", it.token)
+                    mainAct.putExtra("id", it.Id)
+                    mainAct.putExtra("username", it.Username)
+                    mainAct.putExtra("fullname", it.Fullname)
+                    mainAct.putExtra("age", it.Age)
+                    mainAct.putExtra("sex", it.Sex)
+                    mainAct.putExtra("token", it.Token)
                     startActivity(mainAct)
                 }
             })

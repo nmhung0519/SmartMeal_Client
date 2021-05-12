@@ -1,13 +1,10 @@
 package android.example.smartmeal.products
 
 import android.content.Context
-import android.example.smartmeal.table.TableModel
-import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
 
 class ProductViewModel : ViewModel() {
     private val _products = MutableLiveData<List<ProductModel>>()

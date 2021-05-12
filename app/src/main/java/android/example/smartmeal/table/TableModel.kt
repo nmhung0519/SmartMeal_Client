@@ -1,8 +1,8 @@
 package android.example.smartmeal.table
 
 data class TableModel(
-    val id: Int = 0,
-    val tableName: String = "",
-    val status: Int = 0,
-    val isActive: Int = 0
+    val Id: Int = 0,
+    val TableName: String = "",
+    val Status: Int = 0,
+    val IsActive: Int = 0
 )

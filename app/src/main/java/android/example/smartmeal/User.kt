@@ -1,11 +1,11 @@
 package android.example.smartmeal
 
 data class User(
-    val id: Int = 0,
-    val username: String = "",
-    val roleId: Int = 0,
-    val fullname: String = "",
-    val age: Int = 0,
-    val sex: Int = 0,
-    val token: String = ""
+    val Id: Int = 0,
+    val Username: String = "",
+    val RoleId: Int = 0,
+    val Fullname: String = "",
+    val Age: Int = 0,
+    val Sex: Int = 0,
+    val Token: String = ""
 )
