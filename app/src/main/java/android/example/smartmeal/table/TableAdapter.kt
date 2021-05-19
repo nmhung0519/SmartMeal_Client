@@ -81,11 +81,11 @@ class TableAdapter(private val onClick: (View?, TableModel) -> Unit) :
 
 object TableDiffCallback : DiffUtil.ItemCallback<TableModel>() {
     override fun areItemsTheSame(oldItem: TableModel, newItem: TableModel): Boolean {
-        return oldItem == newItem
+        return oldItem.Id == newItem.Id
     }
 
     override fun areContentsTheSame(oldItem: TableModel, newItem: TableModel): Boolean {
-        return oldItem.Id == newItem.Id
+        return oldItem.Status == newItem.Status
     }
 
 }

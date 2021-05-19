@@ -22,4 +22,17 @@
     <string name="OrderTable">Đặt trước</string>
     <string name="fillTable">Có khách</string>
     <string name="payAction">Thanh Toán</string>
+    <string name="customer_name">Tên khách hàng</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="customer_count">Số người</string>
+    <string name="default_number">0</string>
+    <string name="time">Thời gian</string>
+    <string name="time_order_from">Từ</string>
+    <string name="timer_order_to">đến</string>
+    <string name="default_hour">7</string>
+    <string name="date">Ngày</string>
+    <string name="order_table">Đặt bàn</string>
+    <string name="cancel">Huỷ bỏ</string>
+    <string name="login">Đăng nhập</string>
+    <string name="logon">Đăng ký</string>
 </resources>

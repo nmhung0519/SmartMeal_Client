@@ -41,12 +41,14 @@ class TableViewModel : ViewModel() {
         if (currentList == null) _tables.postValue(listOf(table))
         else {
             var currentTable: TableModel? = null
-            currentList.forEach { x ->
-                if (x.Id == table.Id) currentTable = x
+            var n = currentList.count()
+            for (i in 0 until n) {
+                if (currentList[i].Id == table.Id) {
+                    currentList.removeAt(i);
+                    currentList.add(i, table)
+                    break
+                }
             }
-
-            if (currentTable != null) currentTable = table
-            else currentList.add(table)
             _tables.postValue(currentList!!)
         }
     }

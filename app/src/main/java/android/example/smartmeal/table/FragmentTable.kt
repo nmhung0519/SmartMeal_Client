@@ -1,9 +1,12 @@
 package android.example.smartmeal.table
 
 import android.content.Context
-import android.example.smartmeal.R
+import android.content.Intent
+import android.example.smartmeal.*
 import android.example.smartmeal.databinding.FragmentTableBinding
+import android.example.smartmeal.order.OrderTableActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.View
@@ -20,12 +23,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import okhttp3.*
+import java.io.IOException
 
 
 class FragmentTable : Fragment() {
     private var token: String? = null
     private lateinit var tableViewModel: TableViewModel
     private var loadingPanel: RelativeLayout? = null
+    private var waitingUpdate = ArrayList<Int>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,8 +56,64 @@ class FragmentTable : Fragment() {
                 if (it) loaded()
             }
         })
+        MainActivity.hubConnection.on("Table", {sTableId, sTypeId ->
+            Log.d("Logging", "SignarlR Table Method: ${sTableId} - ${sTypeId}")
+            try
+            {
+                waitingUpdate.add(sTableId.toInt())
+                MainActivity.hubConnection.send("GetToken")
+            }
+            catch (ex: Exception) {
+                Log.d("Logging", "Exception: ${ex.message}")
+            }
+        }, String::class.java, String::class.java)
+
+        MainActivity.hubConnection.on("Token", {sToken ->
+            onUpdateTable(sToken)
+        }, String::class.java)
+
         return view
     }
+
+    private fun onUpdateTable(tk: String) {
+        Log.d("Logging", "Fun onUpdateTable")
+        val url = Common.DOMAIN + "/Table/GetById"
+        val content = "{ \"Id\": ${waitingUpdate[0]}}"
+        val client = OkHttpClient()
+        val body = RequestBody.create(
+            MediaType.parse("application/json"), content)
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization", tk)
+            .post(body)
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call?, response: Response?) {
+                val body = response?.body()?.string()
+                var responseModel: ResponseModel?
+                val gson = Gson()
+                try {
+                    responseModel = gson.fromJson(body, ResponseModel::class.java)
+                    if (responseModel.status == false) {
+                        return
+                    }
+
+                    var table = gson.fromJson(responseModel.content, TableModel::class.java)
+                    tableViewModel.updateTable(table)
+                    waitingUpdate.removeAt(0)
+                    if (waitingUpdate.count() > 0) onUpdateTable(tk)
+                }
+                catch (ex: Exception) {
+
+                }
+            }
+
+            override fun onFailure(call: Call?, e: IOException) {
+
+            }
+        })
+    }
+
     fun onLoading() {
         loadingPanel?.visibility = View.VISIBLE
     }
@@ -64,6 +127,18 @@ class FragmentTable : Fragment() {
         val popupMenu: PopupMenu = PopupMenu(this.activity, view)
         popupMenu.menuInflater.inflate(R.menu.popup_menu_table, popupMenu.menu)
         popupMenu.menu.findItem(R.id.payTable).setVisible(false)
+
+        //setup by role
+        popupMenu.menu.findItem(R.id.orderTable).setOnMenuItemClickListener {
+            val mainAct = Intent(activity, OrderTableActivity::class.java)
+            mainAct.putExtra("tableId", table.Id)
+            mainAct.putExtra("tableName", table.TableName)
+            activity?.startActivityForResult(mainAct, Common.REQUEST_CODE_ORDERTABLE)
+            true
+        }
+
+        //setup by status
+
         popupMenu.show()
     }
 

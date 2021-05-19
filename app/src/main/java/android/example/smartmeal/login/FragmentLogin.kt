@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import com.google.gson.Gson
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
 import java.math.BigInteger
@@ -50,7 +48,7 @@ class FragmentLogin : Fragment() {
                     try {
                         responseModel = gson.fromJson(body, ResponseModel::class.java)
                         if (responseModel.status == false) {
-                            viewModelLogin.UpdateMsg(responseModel.content)
+                            viewModelLogin.UpdateMsg("" + responseModel.content)
                             return
                         }
                         viewModelLogin.SetUser(gson.fromJson(responseModel.content, User::class.java))
@@ -65,14 +63,15 @@ class FragmentLogin : Fragment() {
                 }
             })
 
-            viewModelLogin.msg.observe(this, Observer {
+            viewModelLogin.msg.observe(viewLifecycleOwner, Observer {
                 //Toast.makeText(context, viewModelLogin.msg.value, Toast.LENGTH_SHORT).show()
                 binding.txtErrMsg.text = it;
             })
 
-            viewModelLogin.user.observe(this, Observer {
+            viewModelLogin.user.observe(viewLifecycleOwner, Observer {
                 if (it != null) {
                     val mainAct = Intent(activity, MainActivity::class.java)
+                    mainAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME)
                     mainAct.putExtra("id", it.Id)
                     mainAct.putExtra("username", it.Username)
                     mainAct.putExtra("fullname", it.Fullname)
@@ -80,6 +79,7 @@ class FragmentLogin : Fragment() {
                     mainAct.putExtra("sex", it.Sex)
                     mainAct.putExtra("token", it.Token)
                     startActivity(mainAct)
+                    activity?.finish()
                 }
             })
         }
