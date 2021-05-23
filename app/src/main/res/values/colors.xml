@@ -5,7 +5,9 @@
     <color name="colorAccent">#e60000</color>
     <color name="colorEmptyTable">#4EC33A</color>
     <color name="colorFilledTable">#c92c1e</color>
-    <color name="colorBookedTable">#81E61C</color>
+    <color name="colorBookedTable">#DAA520</color>
+    <color name="colorConfirm">#4DAA00</color>
+    <color name="colorCancel">#F70000</color>
     <color name="black">#000000</color>
 </resources>
     <!--#ff1a1a-->

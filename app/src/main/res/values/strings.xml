@@ -35,4 +35,8 @@
     <string name="cancel">Huỷ bỏ</string>
     <string name="login">Đăng nhập</string>
     <string name="logon">Đăng ký</string>
+    <string name="order_product">Gọi món</string>
+    <string name="order_product_infor">Thông tin gọi món</string>
+    <string name="order_table_infor">Thông tin đặt bàn</string>
+    <string name="confirm">Xác nhận</string>
 </resources>

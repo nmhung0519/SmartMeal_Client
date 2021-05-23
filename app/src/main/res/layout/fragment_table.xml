@@ -81,8 +81,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
                     android:layout_marginLeft="@dimen/value_20dp"
                     android:layout_marginRight="@dimen/value_20dp"
+                    android:layout_toEndOf="@+id/filled_table_color"
                     android:gravity="center_vertical"
                     android:text="@string/co_khach"
                     android:textSize="13sp" />

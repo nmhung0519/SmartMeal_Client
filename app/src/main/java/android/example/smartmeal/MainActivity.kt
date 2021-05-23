@@ -14,6 +14,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
@@ -24,27 +26,25 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btn_start: Button
     private lateinit var view_move: View
     private lateinit var navbar: BottomNavigationView
-    private var token: String? = null
     private lateinit var  fragHome: FragmentHome
     private lateinit var fragTable: FragmentTable
     @SuppressLint("ClickableViewAccessibility")
     companion object {
         lateinit var hubConnection: HubConnection
+        var token = MutableLiveData<String>()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         val intent = getIntent()
         val userid = intent.getIntExtra("id", 0)
         val username = intent.getStringExtra("username")
         val fullname = intent.getStringExtra("fullname")
-        token = intent.getStringExtra("token")
+        val sToken = intent.getStringExtra("token")
+        token.postValue("" + sToken)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fragmentManager: FragmentManager =  supportFragmentManager
-        var bundle = Bundle()
-        bundle.putString("token", token)
         fragHome = FragmentHome()
         fragTable = FragmentTable()
-        fragTable.arguments = bundle
         fragmentManager.beginTransaction().add(R.id.fragment_container, fragHome, "Home").commit()
         navbar = findViewById(R.id.navbar)
         navbar.setOnNavigationItemSelectedListener {
@@ -71,10 +71,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this.baseContext, content , Toast.LENGTH_SHORT).show()
         }, Int::class.java, String::class.java, String::class.java, String::class.java, Timestamp::class.java)
 
-//        hubConnection.on("Table", {tableId, typeId ->
-//            Log.d("Logging", "Nhận method Table")
-//            var a = ""
-//        }, Int::class.java, Int::class.java)
+        hubConnection.on("Token", {
+            token.postValue(it)
+        }, String::class.java)
 
         try {
             hubConnection.start().blockingAwait()
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             val tmp = ex.message
         }
 
-        hubConnection.send("Register", username, token)
+        hubConnection.send("Register", username, sToken)
 
     }
 
@@ -95,6 +94,13 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "Đặt bàn thành công", Toast.LENGTH_SHORT).show()
             }
         }
+
+        if (requestCode == Common.REQUEST_CODE_ORDERTABLEINFOR) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(baseContext, "Cập nhật thông tin đặt bàn thành công", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 
 }

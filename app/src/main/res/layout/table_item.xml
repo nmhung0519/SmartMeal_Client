@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:clickable="true"
+    android:focusable="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
-            android:padding="13dp"
             android:id="@+id/table_img"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:padding="13dp"
             android:src="@drawable/table_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorAccent"/>
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/table_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@id/table_img"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/table_img"
+            app:layout_constraintStart_toStartOf="@id/table_img"
             app:layout_constraintTop_toBottomOf="@id/table_img" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

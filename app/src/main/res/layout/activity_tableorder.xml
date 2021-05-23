@@ -19,7 +19,9 @@
                 android:id="@+id/ordertable_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp"
                 android:text="@{viewModel.tableName}"
                 android:textSize="36sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,8 +53,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lbl_customer"
-                android:text="@{viewModel.order.customerName}"
-                android:enabled="@{!viewModel.isOnLoad}"/>
+                android:text="@{viewModel.order.customerName}" />
 
             <TextView
                 android:id="@+id/lbl_Phone"
@@ -118,15 +119,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_customercount" />
 
-            <EditText
-                android:id="@+id/txt_timeorder"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+            <Spinner
+                android:id="@+id/txt_hourorder"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/time_order_from"
-                android:inputType="numberSigned"
+                android:inputType="text"
+                android:spinnerMode="dialog"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@+id/lbl_ordertime"
                 app:layout_constraintStart_toEndOf="@+id/lbl_ordertime"
@@ -135,44 +137,102 @@
             <EditText
                 android:id="@+id/txt_orderdate"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:autofillHints=""
                 android:ems="10"
                 android:enabled="false"
                 android:hint="@string/date"
                 android:inputType="date"
-                app:layout_constraintBottom_toBottomOf="@+id/lbl_ordertime"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_timeorder"
-                app:layout_constraintTop_toTopOf="@+id/lbl_ordertime" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2" />
 
             <Button
                 android:id="@+id/btn_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
                 android:text="@string/order_table"
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/btn_cancelorder"
                 app:layout_constraintEnd_toStartOf="@+id/btn_cancelorder"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_orderdate"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/btn_cancelorder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:text="@string/cancel"
                 android:textColor="@android:color/white"
-                app:layout_constraintBaseline_toBaselineOf="@+id/btn_order"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btn_order" />
+                app:layout_constraintStart_toEndOf="@+id/btn_order"
+                app:layout_constraintTop_toBottomOf="@+id/txt_orderdate"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Spinner
+                android:id="@+id/txt_minuteorder"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_hourorder"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/txt_hourorder" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="3dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="8dp"
+                android:text=":"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_hourorder"
+                app:layout_constraintStart_toEndOf="@+id/textView3"
+                app:layout_constraintTop_toTopOf="@+id/txt_hourorder" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/date"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/lbl_ordertime"
+                app:layout_constraintTop_toBottomOf="@+id/txt_hourorder" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(h)"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_hourorder"
+                app:layout_constraintStart_toEndOf="@+id/txt_hourorder"
+                app:layout_constraintTop_toTopOf="@+id/txt_hourorder" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(m) ."
+                app:layout_constraintBottom_toBottomOf="@+id/txt_minuteorder"
+                app:layout_constraintStart_toEndOf="@+id/txt_minuteorder"
+                app:layout_constraintTop_toTopOf="@+id/txt_minuteorder" />
+
+            <ImageView
+                android:id="@+id/ordertable_btnEdit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/ordertable_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ordertable_name"
+                app:srcCompat="@drawable/pencil" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

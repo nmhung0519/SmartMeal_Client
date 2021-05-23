@@ -5,6 +5,15 @@
     android:layout_width="wrap_content">
 
     <item
+        android:id="@+id/orderProduct"
+        android:title="@string/order_product" />
+    <item
+        android:id="@+id/orderProductInfor"
+        android:title="@string/order_product_infor" />
+    <item
+        android:id="@+id/orderTableInfor"
+        android:title="@string/order_table_infor" />
+    <item
         android:id="@+id/fillTable"
         android:title="@string/fillTable"
         app:showAsAction="never"/>
@@ -13,7 +22,7 @@
         android:title="@string/OrderTable"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/payTable"
+        android:id="@+id/payment"
         android:title="@string/payAction"
         app:showAsAction="never"/>
 </menu>

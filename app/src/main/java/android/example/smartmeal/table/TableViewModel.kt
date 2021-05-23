@@ -60,43 +60,6 @@ class TableViewModelFactory(private val context: Context, token: String?) :ViewM
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TableViewModel::class.java)) {
             var model: TableViewModel = TableViewModel()
-            try {
-                val url = Common.DOMAIN + "/Table/GetAllActive"
-                val client = OkHttpClient()
-                val request = Request.Builder()
-                    .addHeader("Authorization", token)
-                    .url(url)
-                    .get()
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onResponse(call: Call?, response: Response?) {
-                        val body = response?.body()?.string()
-                        lateinit var responseModel: ResponseModel
-                        val gson = Gson()
-                        try {
-                            responseModel = gson.fromJson(body, ResponseModel::class.java)
-                            if (responseModel.status == false) {
-                                //Thông báo lỗi không lấy dữ liệu thành công
-                                return
-                            }
-                            var listTable = gson.fromJson(responseModel.content, Array<TableModel>::class.java)
-                            model.setTable(listTable.toMutableList())
-                        }
-                        catch (ex: Exception) {
-                            var c = ""
-                            //Thông báo lỗi trong quá trình lấy dữ liệu bàn
-                        }
-                    }
-
-                    override fun onFailure(call: Call?, e: IOException) {
-                        var a = ""
-                        //Thông báo lỗi trong quá trình lấy dữ liệu bàn
-                    }
-                })
-            }
-            catch (ex: Exception) {
-                //
-            }
             return model as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
