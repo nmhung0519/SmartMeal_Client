@@ -1,22 +1,23 @@
 package android.example.smartmeal.products
 
-import android.app.ActionBar
 import android.app.Dialog
 import android.content.Context
 import android.example.smartmeal.Common
 import android.example.smartmeal.MainActivity
 import android.example.smartmeal.R
 import android.example.smartmeal.ResponseModel
-import android.example.smartmeal.table.TableModel
-import android.example.smartmeal.table.TableViewModel
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import okhttp3.*
 import java.io.IOException
 
@@ -86,12 +87,24 @@ class FragmentProduct : Fragment() {
             }
         })
 
+        val btnAddProduct = view.findViewById<FloatingActionButton>(R.id.btn_addproduct)
+        if (MainActivity.getRole() == 1) {
+            btnAddProduct.visibility = View.VISIBLE
+            btnAddProduct.setOnClickListener {
+                showProductDialog()
+            }
+        }
+
         productViewModel.flag = 1
         MainActivity.hubConnection.send("GetToken")
         return view
     }
 
     private fun adapterOnClick(product: ProductModel) {
+        showProductDialog(product)
+    }
+
+    fun showProductDialog(product: ProductModel? = null) {
         var dialog = Dialog(context as Context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -100,11 +113,28 @@ class FragmentProduct : Fragment() {
             dialog.dismiss()
         }
 
-        val btnConfirm = dialog.findViewById<Button>(R.id.btn_productok)
+        val btnConfirm = dialog.findViewById<Button>(R.id.btn_productconfirm)
         btnConfirm.setOnClickListener {
 
             dialog.dismiss()
         }
+        if (product != null) {
+            val txtProductName = dialog.findViewById<EditText>(R.id.txt_productname)
+            val txtProductPrice = dialog.findViewById<EditText>(R.id.txt_productprice)
+            val btnConfirm = dialog.findViewById<Button>(R.id.btn_productconfirm)
+            val btnCancel = dialog.findViewById<Button>(R.id.btn_productcancel)
+            if (MainActivity.getRole() != 1) {
+                txtProductName.isEnabled = false
+                txtProductPrice.isEnabled = false
+                btnConfirm.visibility = View.GONE
+            }
+            txtProductName.setText(product.ProductName)
+            txtProductPrice.setText(product.ProductPrice.toString())
+            if (product.Image != null && product.Image.length > 0) Picasso.get().load(product.Image).into(dialog.findViewById<ImageView>(R.id.img_product))
+            btnConfirm.setText("Cập nhật")
+            btnCancel.setText("Đóng")
+        }
+
         dialog.show()
         dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
     }

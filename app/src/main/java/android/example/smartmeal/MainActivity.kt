@@ -2,7 +2,9 @@ package android.example.smartmeal
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.example.smartmeal.account.FragmentAccount
 import android.example.smartmeal.home.FragmentHome
 import android.example.smartmeal.products.FragmentProduct
 import android.example.smartmeal.table.FragmentTable
@@ -12,10 +14,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
+import com.microsoft.signalr.HubConnectionState
 import java.sql.Timestamp
 
 class MainActivity : AppCompatActivity() {
@@ -25,10 +29,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var  fragHome: FragmentHome
     private lateinit var fragTable: FragmentTable
     private lateinit var fragProduct: FragmentProduct
+    private lateinit var fragAccount: FragmentAccount
     @SuppressLint("ClickableViewAccessibility")
     companion object {
         lateinit var hubConnection: HubConnection
         var token = MutableLiveData<String>()
+        private var roleId: Int = 0;
+        fun getRole(): Int {
+            return roleId
+        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         val intent = getIntent()
@@ -36,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         val username = intent.getStringExtra("username")
         val fullname = intent.getStringExtra("fullname")
         val sToken = intent.getStringExtra("token")
+        roleId = intent.getIntExtra("roleId", 0)
         token.postValue("" + sToken)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         fragHome = FragmentHome()
         fragTable = FragmentTable()
         fragProduct = FragmentProduct()
+        fragAccount = FragmentAccount()
         fragmentManager.beginTransaction().add(R.id.fragment_container, fragHome, "Home").commit()
         navbar = findViewById(R.id.navbar)
         navbar.setOnNavigationItemSelectedListener {
@@ -57,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     fragmentManager.beginTransaction().replace(R.id.fragment_container, fragProduct, "Product").commit()
                 }
                 R.id.nav_4 -> {
-                    Toast.makeText(baseContext, "4", Toast.LENGTH_SHORT).show()
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragAccount, "Account").commit()
                 }
             }
             true
@@ -72,6 +83,12 @@ class MainActivity : AppCompatActivity() {
         hubConnection.on("Token", {
             token.postValue(it)
         }, String::class.java)
+
+        hubConnection.on("Logout", {
+            var dialog = Dialog(baseContext)
+            dialog.setTitle("Bạn đã đăng xuất")
+            dialog.show()
+        })
 
         try {
             hubConnection.start().blockingAwait()

@@ -46,4 +46,5 @@
     <string name="active">Kích hoạt</string>
     <string name="price">Giá</string>
     <string name="add_product">Thêm sản phẩm</string>
+    <string name="logout">Đăng xuất</string>
 </resources>

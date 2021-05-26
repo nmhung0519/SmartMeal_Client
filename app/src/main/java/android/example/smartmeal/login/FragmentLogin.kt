@@ -78,6 +78,7 @@ class FragmentLogin : Fragment() {
                     mainAct.putExtra("age", it.Age)
                     mainAct.putExtra("sex", it.Sex)
                     mainAct.putExtra("token", it.Token)
+                    mainAct.putExtra("roleId", it.RoleId)
                     startActivity(mainAct)
                     activity?.finish()
                 }
