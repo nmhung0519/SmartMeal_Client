@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".order.OrderTableActivity"></activity>
+        <activity android:name=".orderproduct.OrderProductActivity"></activity>
     </application>
 
 </manifest>

@@ -9,5 +9,6 @@
     <color name="colorConfirm">#4DAA00</color>
     <color name="colorCancel">#F70000</color>
     <color name="black">#000000</color>
+    <color name="lightgrey">#D3D3D3</color>
 </resources>
     <!--#ff1a1a-->

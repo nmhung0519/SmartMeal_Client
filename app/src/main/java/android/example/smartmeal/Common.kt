@@ -12,6 +12,7 @@ class Common {
         val DEFAULT_HOUR = 7
         val REQUEST_CODE_ORDERTABLE = 1
         val REQUEST_CODE_ORDERTABLEINFOR = 2
+        val REQUEST_CODE_ORDERPRODUCT = 3
 
         fun toViewDate(datetime: String?): String { 
             if (datetime == null || datetime == "") return ""

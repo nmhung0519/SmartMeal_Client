@@ -47,4 +47,8 @@
     <string name="price">Giá</string>
     <string name="add_product">Thêm sản phẩm</string>
     <string name="logout">Đăng xuất</string>
+    <string name="add_table">Thêm bàn</string>
+    <string name="logout_notify">Bạn đã đăng xuất!</string>
+    <string name="close">Đóng</string>
+    <string name="decrease">-</string>
 </resources>

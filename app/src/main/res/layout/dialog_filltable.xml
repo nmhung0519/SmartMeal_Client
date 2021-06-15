@@ -67,7 +67,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_cfok"
+            android:id="@+id/btn_cf2ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -78,7 +78,7 @@
             app:backgroundTint="@color/colorConfirm" />
 
         <Button
-            android:id="@+id/btn_cfcancel"
+            android:id="@+id/btn_cf2cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"

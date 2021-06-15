@@ -1,12 +1,12 @@
 package android.example.smartmeal.table
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.example.smartmeal.*
 import android.example.smartmeal.order.OrderModel
 import android.example.smartmeal.order.OrderTableActivity
+import android.example.smartmeal.orderproduct.OrderProductActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import okhttp3.*
-import org.w3c.dom.Text
 import java.io.IOException
 
 
@@ -160,7 +159,6 @@ class FragmentTable : Fragment() {
     }
 
     fun adapterOnClick(view: View?, table: TableModel) {
-        Toast.makeText(context, table.TableName, Toast.LENGTH_SHORT).show()
         val popupMenu: PopupMenu = PopupMenu(this.activity, view)
         popupMenu.menuInflater.inflate(R.menu.popup_menu_table, popupMenu.menu)
 
@@ -189,6 +187,15 @@ class FragmentTable : Fragment() {
             (table.Status == 1)
         )
 
+        if (popupMenu.menu.findItem(R.id.orderProduct).isVisible) {
+            popupMenu.menu.findItem(R.id.orderProduct).setOnMenuItemClickListener {
+                val orderProductActivity = Intent(activity, OrderProductActivity::class.java)
+                orderProductActivity.putExtra("tableId", table.Id)
+                startActivity(orderProductActivity)
+                true
+            }
+        }
+
         //Menu Item Thông tin gọi món
         popupMenu.menu.findItem(R.id.orderProductInfor).setVisible(
             (table.Status == 1)
@@ -216,63 +223,138 @@ class FragmentTable : Fragment() {
 
         if (popupMenu.menu.findItem(R.id.fillTable).isVisible) {
             popupMenu.menu.findItem(R.id.fillTable).setOnMenuItemClickListener {
-                waitingPreviewOrder = true
-                val dialog = Dialog(context as Context)
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                dialog.setCancelable(false)
-                dialog.setContentView(R.layout.dialog_filltable)
-                dialog.findViewById<TextView>(R.id.lbl_cftablename).setText(table.TableName)
-                var btnConfirm = dialog.findViewById<Button>(R.id.btn_cfok)
-                btnConfirm.isEnabled = false
-                btnConfirm.setOnClickListener{
-                    //
-                    dialog.dismiss()
+                if (table.Status == 2) {
+                    waitingPreviewOrder = true
+                    val dialog = Dialog(context as Context)
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    dialog.setCancelable(false)
+                    dialog.setContentView(R.layout.dialog_filltable)
+                    dialog.findViewById<TextView>(R.id.lbl_cftablename).setText(table.TableName)
+                    var btnConfirm = dialog.findViewById<Button>(R.id.btn_cf2ok)
+                    btnConfirm.isEnabled = false
+                    btnConfirm.setOnClickListener {
+                        //
+                        dialog.dismiss()
+                    }
+                    dialog.findViewById<Button>(R.id.btn_cf2cancel).setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    //MainActivity.hubConnection.send("GetToken")
+                    MainActivity.token.observe(requireActivity(), Observer {
+                        if (waitingPreviewOrder) {
+                            getDataOrder(dialog, table.Id, it)
+                        }
+
+                        if (waitingConfirmOrderId > 0) {
+                            var orderId = waitingConfirmOrderId
+                            waitingConfirmOrderId = 0;
+                            val url = Common.DOMAIN + "/Order/Confirm"
+                            val content = "{ \"Id\": ${orderId}}"
+                            val client = OkHttpClient()
+                            val body = RequestBody.create(
+                                MediaType.parse("application/json"), content
+                            )
+                            val request = Request.Builder()
+                                .url(url)
+                                .addHeader("Authorization", it)
+                                .post(body)
+                                .build()
+                            client.newCall(request).enqueue(object : Callback {
+                                override fun onResponse(call: Call?, response: Response?) {
+                                    val body = response?.body()?.string()
+                                    val gson = Gson()
+                                    try {
+                                        var responseModel =
+                                            gson.fromJson(body, ResponseModel::class.java)
+                                        if (responseModel.status == true) {
+                                            dialog.dismiss()
+                                        } else {
+                                            btnConfirm.isEnabled = true
+                                        }
+                                    } catch (ex: Exception) {
+                                    }
+                                }
+
+                                override fun onFailure(call: Call?, e: IOException) {
+                                    btnConfirm.isEnabled = true
+                                }
+                            })
+                        }
+                    })
+                    dialog.show()
                 }
-                dialog.findViewById<Button>(R.id.btn_cfcancel).setOnClickListener{
-                    dialog.dismiss()
-                }
-                //MainActivity.hubConnection.send("GetToken")
-                MainActivity.token.observe(requireActivity(), Observer {
-                    if (waitingPreviewOrder) {
-                        getDataOrder(dialog, table.Id, it)
+                else {
+                    var flagFill = false
+                    val dialog = Dialog(context as Context)
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    dialog.setCancelable(false)
+                    dialog.setContentView(R.layout.dialog_filltablenotorder)
+                    dialog.findViewById<TextView>(R.id.lbl_cf2tablename).setText(table.TableName)
+                    val txtCustomer = dialog.findViewById<EditText>(R.id.txt_cf2customer)
+                    val txtPhone = dialog.findViewById<EditText>(R.id.txt_cf2phone)
+                    val btnConfirm = dialog.findViewById<Button>(R.id.btn_cf2ok)
+                    val btnCancel = dialog.findViewById<Button>(R.id.btn_cf2cancel)
+                    btnConfirm.setOnClickListener{
+                        txtCustomer.isEnabled = false
+                        txtPhone.isEnabled = false
+                        btnConfirm.isEnabled = false
+                        btnCancel.isEnabled = false
+                        flagFill = true
+                        MainActivity.hubConnection.send("GetToken")
                     }
 
-                    if (waitingConfirmOrderId > 0) {
-                        var orderId = waitingConfirmOrderId
-                        waitingConfirmOrderId = 0;
-                        val url = Common.DOMAIN + "/Order/Confirm"
-                        val content = "{ \"Id\": ${orderId}}"
-                        val client = OkHttpClient()
-                        val body = RequestBody.create(
-                            MediaType.parse("application/json"), content
-                        )
-                        val request = Request.Builder()
-                            .url(url)
-                            .addHeader("Authorization", it)
-                            .post(body)
-                            .build()
-                        client.newCall(request).enqueue(object : Callback {
-                            override fun onResponse(call: Call?, response: Response?) {
-                                val body = response?.body()?.string()
-                                val gson = Gson()
-                                try {
-                                    var responseModel = gson.fromJson(body, ResponseModel::class.java)
-                                    if (responseModel.status == true) {
-                                        dialog.dismiss()
-                                    }
-                                    else {
-                                        btnConfirm.isEnabled = true
-                                    }
-                                } catch (ex: Exception) { }
-                            }
+                    MainActivity.token.observe(this.requireActivity(), Observer {
+                        if (flagFill) {
+                            flagFill = false
+                            val url = Common.DOMAIN + "/Table/Fill"
+                            val content = "{ " +
+                                    "\"TableId\": ${table.Id}," +
+                                    "\"CustomerName\": \"${txtCustomer.text}\"," +
+                                    "\"CustomerContact\": \"${txtPhone.text}\"" +
+                                    "}"
+                            val client = OkHttpClient()
+                            val body = RequestBody.create(
+                                MediaType.parse("application/json"), content
+                            )
+                            val request = Request.Builder()
+                                .url(url)
+                                .addHeader("Authorization", it)
+                                .post(body)
+                                .build()
+                            client.newCall(request).enqueue(object : Callback {
+                                override fun onResponse(call: Call?, response: Response?) {
+                                    val body = response?.body()?.string()
+                                    val gson = Gson()
+                                    try {
+                                        var responseModel =
+                                            gson.fromJson(body, ResponseModel::class.java)
+                                        if (responseModel.status == true) {
+                                            dialog.dismiss()
+                                            return
+                                        }
 
-                            override fun onFailure(call: Call?, e: IOException) {
-                                btnConfirm.isEnabled = true
-                            }
-                        })
+                                    } catch (ex: Exception) {
+                                    }
+                                    txtCustomer.isEnabled = true
+                                    txtPhone.isEnabled = true
+                                    btnConfirm.isEnabled = true
+                                    btnCancel.isEnabled = true
+                                }
+
+                                override fun onFailure(call: Call?, e: IOException) {
+                                    txtCustomer.isEnabled = true
+                                    txtPhone.isEnabled = true
+                                    btnConfirm.isEnabled = true
+                                    btnCancel.isEnabled = true
+                                }
+                            })
+                        }
+                    })
+                    btnCancel.setOnClickListener{
+                        dialog.dismiss()
                     }
-                })
-                dialog.show()
+                    dialog.show()
+                }
                 true
             }
         }
@@ -303,7 +385,7 @@ class FragmentTable : Fragment() {
                         dialog.findViewById<TextView>(R.id.txt_cfcustomer).setText(order.CustomerName)
                         dialog.findViewById<TextView>(R.id.txt_cfphone).setText(order.CustomerContact)
                         dialog.findViewById<TextView>(R.id.txt_cftime).setText(Common.toViewTime(order.StartTime))
-                        var btnConfirm = dialog.findViewById<Button>(R.id.btn_cfok)
+                        var btnConfirm = dialog.findViewById<Button>(R.id.btn_cf2ok)
                         btnConfirm.setOnClickListener{
                             waitingConfirmOrderId = order.Id
                             MainActivity.hubConnection.send("GetToken")

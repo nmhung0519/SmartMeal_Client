@@ -38,7 +38,12 @@ class FragmentAccount : Fragment() {
         view.findViewById<Button>(R.id.btn_logout).setOnClickListener{
             MainActivity.hubConnection.send("Logout")
             var dialog = Dialog(context as Context)
-            dialog.setTitle("Bạn đã đăng xuất")
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.dialog_logout)
+            dialog.findViewById<Button>(R.id.btn_cflogout).setOnClickListener{
+                dialog.dismiss()
+            }
             dialog.setOnDismissListener{
                 var intent = Intent(activity, LoginActivity::class.java)
                 startActivity(intent)
