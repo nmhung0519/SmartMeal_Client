@@ -37,6 +37,19 @@ class Common {
             if (datetime == null || datetime == "") return ""
             return datetime.split("T")[1].split(":")[1]
         }
+
+        fun toMoneyFormat(amount: Int):String {
+            var tmp = amount
+            var output = ""
+            while (tmp > 1000) {
+                var a = "" + tmp % 1000
+                while (a.length < 3) a = "0" + a
+                output = "," + a + output
+                tmp = tmp / 1000
+            }
+            output = tmp.toString() + output
+            return output
+        }
     }
 
 

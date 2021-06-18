@@ -30,12 +30,11 @@ class OrderProductViewModel: ViewModel() {
         var _tmpList: List<OrderDetailModel>? = null
         if (_listSelected.value == null) {
             _tmpList = listOf<OrderDetailModel>()
-        }
-        else {
+        } else {
             _tmpList = _listSelected.value!!.toMutableList()
         }
         var _flag = true
-        for (i in 0 until _listSelected.value!!.count()) {
+        for (i in 0 until _tmpList!!.count()) {
             if (_tmpList[i].ProductId == productId) {
                 _tmpList[i].ProductCount += count
                 _flag = false
@@ -54,8 +53,10 @@ class OrderProductViewModel: ViewModel() {
             if (product != null) {
                 _orderDetail.ProductName = product!!.ProductName
                 _orderDetail.ProductPrice = product!!.ProductPrice
+                _tmpList += _orderDetail
             }
         }
+        _listSelected.postValue(_tmpList!!)
     }
 
     fun updateProduct(product: ProductModel) {
@@ -77,6 +78,69 @@ class OrderProductViewModel: ViewModel() {
             _list.postValue(currentList!!)
 
         }
+    }
+
+    fun getTotalCount(): Int {
+        var _tmp = _listSelected.value
+        if (_tmp == null || _tmp!!.count() == 0) return 0;
+        var count = 0
+        var n = _tmp.count()
+        for(i in 0 until n) {
+            count += _tmp[i].ProductCount
+        }
+        return count
+    }
+
+    fun getTotalAmount(): Int {
+        var _tmp = _listSelected.value
+        if (_tmp == null || _tmp!!.count() == 0) return 0;
+        var amount = 0
+        var n = _tmp.count()
+        for(i in 0 until n) {
+            amount += _tmp[i].ProductCount * _tmp[i].ProductPrice
+        }
+        return amount
+    }
+
+    fun getProduct(productId: Int): ProductModel {
+        try {
+            var _countProduct = _list.value!!.count();
+            for (i in 0 until _countProduct) {
+                if (_list.value!![i].Id == productId) return _list.value!![i]
+            }
+        }
+        catch (ex: Exception) {}
+        return ProductModel()
+    }
+
+    fun updateCount(productId: Int, count: Int) {
+        try {
+            var _tmp: MutableList<OrderDetailModel>? = _listSelected.value?.toMutableList()
+            var n = _tmp!!.count()
+            for (i in 0 until n) {
+                if (_tmp[i].ProductId == productId) {
+                    _tmp[i].ProductCount = count
+                    break
+                }
+            }
+            _listSelected.postValue(_tmp!!)
+        }
+        catch (ex: Exception) {}
+    }
+
+    fun removeProduct(productId: Int) {
+        try {
+            var _tmp: MutableList<OrderDetailModel>? = _listSelected.value?.toMutableList()
+            var n = _tmp!!.count()
+            for (i in 0 until n) {
+                if (_tmp[i].ProductId == productId) {
+                    _tmp.removeAt(i)
+                    break
+                }
+            }
+            _listSelected.postValue(_tmp!!)
+        }
+        catch (ex: Exception) {}
     }
 }
 

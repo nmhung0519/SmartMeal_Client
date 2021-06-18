@@ -50,10 +50,6 @@ class ProductAdapter(private val onClick: (ProductModel) -> Unit) :
         }
     }
 
-    override fun onViewAttachedToWindow(holder: ProductViewHolder) {
-        super.onViewAttachedToWindow(holder)
-    }
-
     /* Creates and inflates view and return FlowerViewHolder. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context)

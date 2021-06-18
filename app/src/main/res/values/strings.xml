@@ -51,4 +51,10 @@
     <string name="logout_notify">Bạn đã đăng xuất!</string>
     <string name="close">Đóng</string>
     <string name="decrease">-</string>
+    <string name="cash">Giỏ hàng</string>
+    <string name="choosed_list">Danh sách đã chọn</string>
+    <string name="cf_order_product">Đặt món</string>
+    <string name="total_amount">Tổng cộng</string>
+    <string name="count">Số lượng</string>
+    <string name="amount_money">Thành tiền</string>
 </resources>

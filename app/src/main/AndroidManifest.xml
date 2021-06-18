@@ -25,6 +25,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".order.OrderTableActivity"></activity>
         <activity android:name=".orderproduct.OrderProductActivity"></activity>
+        <activity android:name=".choosedproduct.ActivityChoosedProduct"></activity>
     </application>
 
 </manifest>
