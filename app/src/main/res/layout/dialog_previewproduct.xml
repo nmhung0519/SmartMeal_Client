@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_weight="1"
-        android:text="@string/cancel"
+        android:text="@string/save"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/colorCancel"
+        app:backgroundTint="@color/colorConfirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -28,9 +28,9 @@
         android:id="@+id/btn_productcancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save"
+        android:text="@string/cancel"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/colorConfirm"
+        app:backgroundTint="@color/colorCancel"
         app:layout_constraintBaseline_toBaselineOf="@+id/btn_productconfirm"
         app:layout_constraintEnd_toStartOf="@+id/btn_productconfirm"
         app:layout_constraintHorizontal_bias="0.5"
@@ -99,6 +99,12 @@
                 android:hint="@string/price"
                 android:inputType="numberSigned"
                 android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/txt_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/chk_productactive"

@@ -13,8 +13,7 @@
         <item>Quản lý</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="danh_sach_ban">Danh sach ban</string>
+    <string name="danh_sach_ban">Danh sách bàn</string>
     <string name="ban_trong">Bàn trống</string>
     <string name="co_khach">Có Khách</string>
     <string name="dat_truoc">Đặt trước</string>
@@ -57,4 +56,6 @@
     <string name="total_amount">Tổng cộng</string>
     <string name="count">Số lượng</string>
     <string name="amount_money">Thành tiền</string>
+    <string name="payment">Thanh  toán</string>
+    <string name="empty_list">Danh sách trống</string>
 </resources>

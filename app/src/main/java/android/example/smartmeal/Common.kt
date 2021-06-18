@@ -13,6 +13,9 @@ class Common {
         val REQUEST_CODE_ORDERTABLE = 1
         val REQUEST_CODE_ORDERTABLEINFOR = 2
         val REQUEST_CODE_ORDERPRODUCT = 3
+        val REQUEST_CODE_CFORDERPRODUCT = 4
+        val REQUEST_CODE_PAYMENT = 5
+        val REQUEST_CODE_SELECT_IMAGE_IN_ALBUM = 6
 
         fun toViewDate(datetime: String?): String { 
             if (datetime == null || datetime == "") return ""

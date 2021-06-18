@@ -13,6 +13,7 @@ import java.sql.Timestamp
 
 class OrderProductViewModel: ViewModel() {
     var tableId: Int = 0
+    var orderId: Int = 0
     var flagLoad = MutableLiveData<Boolean>()
     private val _list = MutableLiveData<List<ProductModel>>()
     val list: LiveData<List<ProductModel>>

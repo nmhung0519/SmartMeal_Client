@@ -3,7 +3,9 @@
     package="android.example.smartmeal">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +28,7 @@
         <activity android:name=".order.OrderTableActivity"></activity>
         <activity android:name=".orderproduct.OrderProductActivity"></activity>
         <activity android:name=".choosedproduct.ActivityChoosedProduct"></activity>
+        <activity android:name=".payment.ActivityPayment"></activity>
     </application>
 
 </manifest>

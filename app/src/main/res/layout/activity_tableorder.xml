@@ -106,7 +106,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/lbl_customercount"
                 app:layout_constraintTop_toTopOf="@+id/lbl_customercount"
-                tools:text="@string/default_number" />
+                tools:text="@string/default_number"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/lbl_ordertime"

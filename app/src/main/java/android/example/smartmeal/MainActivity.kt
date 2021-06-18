@@ -8,19 +8,24 @@ import android.example.smartmeal.account.FragmentAccount
 import android.example.smartmeal.home.FragmentHome
 import android.example.smartmeal.products.FragmentProduct
 import android.example.smartmeal.table.FragmentTable
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import com.microsoft.signalr.HubConnectionState
+import java.io.File
 import java.sql.Timestamp
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btn_start: Button
@@ -34,10 +39,12 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var hubConnection: HubConnection
         var token = MutableLiveData<String>()
+        var msgT = MutableLiveData<String>()
         private var roleId: Int = 0;
         fun getRole(): Int {
             return roleId
         }
+        val base64Image = MutableLiveData<String>()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         val intent = getIntent()
@@ -90,6 +97,13 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         })
 
+        msgT.observe(this, Observer {
+            if (it != null && it != "") {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                msgT.postValue("")
+            }
+        })
+
         try {
             hubConnection.start().blockingAwait()
         }
@@ -101,6 +115,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -109,13 +124,29 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "Đặt bàn thành công", Toast.LENGTH_SHORT).show()
             }
         }
-
         if (requestCode == Common.REQUEST_CODE_ORDERTABLEINFOR) {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(baseContext, "Cập nhật thông tin đặt bàn thành công", Toast.LENGTH_SHORT).show()
             }
         }
+
+        if (requestCode == Common.REQUEST_CODE_ORDERPRODUCT) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(baseContext, "Đặt món thành công", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (requestCode == Common.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(baseContext, "Thanh toán thành công", Toast.LENGTH_SHORT).show()
+            }
+        }
+        if (requestCode == Common.REQUEST_CODE_SELECT_IMAGE_IN_ALBUM) {
+            if (resultCode == Activity.RESULT_OK) {
+                //val bytes = File(data.).readBytes()
+                //val base64 = Base64.getEncoder().encodeToString(bytes)
+                //base64Image. postValue(base64)
+            }
+        }
     }
-
-
 }

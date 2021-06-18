@@ -7,6 +7,7 @@ import android.example.smartmeal.*
 import android.example.smartmeal.order.OrderModel
 import android.example.smartmeal.order.OrderTableActivity
 import android.example.smartmeal.orderproduct.OrderProductActivity
+import android.example.smartmeal.payment.ActivityPayment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -167,6 +168,15 @@ class FragmentTable : Fragment() {
             (table.Status == 1)
         )
 
+        if (popupMenu.menu.findItem(R.id.payment).isVisible) {
+            popupMenu.menu.findItem(R.id.payment).setOnMenuItemClickListener {
+                val act = Intent(activity, ActivityPayment::class.java)
+                act.putExtra("tableId", table.Id)
+                activity?.startActivityForResult(act, Common.REQUEST_CODE_PAYMENT)
+                true
+            }
+        }
+
         //Menu Item Đặt bàn
         popupMenu.menu.findItem(R.id.orderTable).setVisible(
             (table.Status == 0)
@@ -191,14 +201,14 @@ class FragmentTable : Fragment() {
             popupMenu.menu.findItem(R.id.orderProduct).setOnMenuItemClickListener {
                 val orderProductActivity = Intent(activity, OrderProductActivity::class.java)
                 orderProductActivity.putExtra("tableId", table.Id)
-                startActivity(orderProductActivity)
+                activity?.startActivityForResult(orderProductActivity, Common.REQUEST_CODE_ORDERPRODUCT)
                 true
             }
         }
 
         //Menu Item Thông tin gọi món
         popupMenu.menu.findItem(R.id.orderProductInfor).setVisible(
-            (table.Status == 1)
+            (table.Status == 1) && false
         )
 
         //Menu Item Thông tin đặt bàn

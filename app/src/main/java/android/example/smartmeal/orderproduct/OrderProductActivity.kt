@@ -1,5 +1,6 @@
 package android.example.smartmeal.orderproduct
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.example.smartmeal.Common
@@ -8,6 +9,7 @@ import android.example.smartmeal.R
 import android.example.smartmeal.ResponseModel
 import android.example.smartmeal.choosedproduct.ActivityChoosedProduct
 import android.example.smartmeal.databinding.ActivityOrderproductBinding
+import android.example.smartmeal.order.OrderModel
 import android.example.smartmeal.products.ProductAdapter
 import android.example.smartmeal.products.ProductModel
 import android.os.Bundle
@@ -75,7 +77,7 @@ class OrderProductActivity: AppCompatActivity() {
 
         binding.btnPrePoproduct.setOnClickListener{
             var intent = Intent(this, ActivityChoosedProduct::class.java)
-            this.startActivity(intent)
+            this.startActivityForResult(intent, Common.REQUEST_CODE_CFORDERPRODUCT)
         }
 
         binding.txtSearchproduct.doAfterTextChanged {
@@ -83,7 +85,51 @@ class OrderProductActivity: AppCompatActivity() {
             MainActivity.hubConnection.send("GetToken")
         }
 
+        binding.btnOrderproductBack.setOnClickListener{
+            finish()
+        }
+
         MainActivity.token.observe(this, Observer {
+            if(viewModel.orderId == 0) {
+                viewModel.orderId == -1
+                val url = Common.DOMAIN + "/Order/GetPreWithTable"
+                val client = OkHttpClient()
+                val content = "{" +
+                        "\"TableId\": ${viewModel.tableId}" +
+                        "}"
+                val body = RequestBody.create(MediaType.parse("application/json"), content)
+                val request = Request.Builder()
+                    .addHeader("Authorization", it)
+                    .url(url)
+                    .post(body)
+                    .build()
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onResponse(call: Call?, response: Response?) {
+                        val body = response?.body()?.string()
+                        lateinit var responseModel: ResponseModel
+                        val gson = Gson()
+                        try {
+                            responseModel = gson.fromJson(body, ResponseModel::class.java)
+                            if (responseModel.status == false) {
+                                //Thông báo lỗi không lấy dữ liệu thành công
+                                return
+                            }
+                            var order = gson.fromJson(
+                                responseModel.content,
+                                OrderModel::class.java
+                            )
+                            viewModel.orderId = order.Id
+                        } catch (ex: Exception) {
+                            var c = ""
+                        }
+                    }
+
+                    override fun onFailure(call: Call?, e: IOException) {
+                        var a = ""
+                        //Thông báo lỗi trong quá trình lấy dữ liệu bàn
+                    }
+                })
+            }
             if (binding.viewModel!!.flagLoad.value == false) {
                 binding.viewModel!!.flagLoad.postValue(true)
                 val url = Common.DOMAIN + "/Product/SearchByName"
@@ -176,6 +222,18 @@ class OrderProductActivity: AppCompatActivity() {
         catch (ex: Exception) {
             var a = ex.message
             var b = ""
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Common.REQUEST_CODE_CFORDERPRODUCT) {
+            if (resultCode == Activity.RESULT_OK) {
+                var intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
         }
     }
 }
