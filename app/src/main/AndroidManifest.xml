@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".order.OrderTableActivity"></activity>
-        <activity android:name=".orderproduct.OrderProductActivity"></activity>
-        <activity android:name=".choosedproduct.ActivityChoosedProduct"></activity>
-        <activity android:name=".payment.ActivityPayment"></activity>
+        <activity android:theme="@style/Theme.SmartMeal.NoActionBar" android:name=".MainActivity"></activity>
+        <activity android:theme="@style/Theme.SmartMeal.NoActionBar" android:name=".order.OrderTableActivity"></activity>
+        <activity android:theme="@style/Theme.SmartMeal.NoActionBar" android:name=".orderproduct.OrderProductActivity"></activity>
+        <activity android:theme="@style/Theme.SmartMeal.NoActionBar" android:name=".choosedproduct.ActivityChoosedProduct"></activity>
+        <activity android:theme="@style/Theme.SmartMeal.NoActionBar" android:name=".payment.ActivityPayment"></activity>
     </application>
 
 </manifest>

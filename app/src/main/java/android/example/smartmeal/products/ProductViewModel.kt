@@ -1,6 +1,7 @@
 package android.example.smartmeal.products
 
 import android.content.Context
+import android.example.smartmeal.table.TableModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,27 @@ class ProductViewModel : ViewModel() {
             }
         } catch (ex: Exception) {
             var a = 1
+        }
+    }
+
+    fun updateProduct(product: ProductModel) {
+        var currentList = _products.value?.toMutableList()
+        if (currentList == null) _products.postValue(listOf(product))
+        else {
+            var n = currentList.count()
+            var _flag = true
+            for (i in 0 until n) {
+                if (currentList[i].Id == product.Id) {
+                    currentList.removeAt(i);
+                    currentList.add(i, product)
+                    _flag = false
+                    break
+                }
+            }
+            if (_flag) {
+                currentList.add(product)
+            }
+            _products.postValue(currentList!!)
         }
     }
 

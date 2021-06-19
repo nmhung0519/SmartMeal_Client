@@ -1,5 +1,6 @@
 package android.example.smartmeal.products
 
+import android.example.smartmeal.Common
 import android.example.smartmeal.R
 import android.example.smartmeal.table.TableModel
 import android.view.LayoutInflater
@@ -42,7 +43,7 @@ class ProductAdapter(private val onClick: (ProductModel) -> Unit) :
         fun bind(product: ProductModel) {
             currentProduct = product
             productName.setText(product.ProductName)
-            productPrice.setText(product.ProductPrice.toString() + "đ")
+            productPrice.setText(Common.toMoneyFormat(product.ProductPrice) + "đ")
             if (product.Image != null && product.Image.length > 0) Picasso.get().load(product.Image).into(productImage)
             else {
                 //Default Image
@@ -75,11 +76,13 @@ class ProductAdapter(private val onClick: (ProductModel) -> Unit) :
 
 object TableDiffCallback : DiffUtil.ItemCallback<ProductModel>() {
     override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
-        return oldItem == newItem
+        return oldItem.Id == newItem.Id
     }
 
     override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
-        return oldItem.Id == newItem.Id
+        return (oldItem.ProductName != newItem.ProductName
+                || oldItem.Image != newItem.Image
+                || oldItem.ProductPrice != newItem.ProductPrice)
     }
 
 }

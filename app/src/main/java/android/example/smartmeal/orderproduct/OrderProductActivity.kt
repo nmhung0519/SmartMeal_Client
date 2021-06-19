@@ -214,7 +214,7 @@ class OrderProductActivity: AppCompatActivity() {
             var window = dialog.getWindow()
             var wlp = window?.attributes
             wlp?.gravity = Gravity.BOTTOM
-            wlp?.windowAnimations = R.style.DialogAnimation
+            //wlp?.windowAnimations = R.style.DialogAnimation
             window?.attributes = wlp
             dialog.show()
             dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)

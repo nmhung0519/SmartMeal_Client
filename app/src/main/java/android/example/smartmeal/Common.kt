@@ -1,5 +1,13 @@
 package android.example.smartmeal
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import android.util.Base64
+import java.io.ByteArrayOutputStream
+
+
 class Common {
     companion object {
         //val DOMAIN: String = "http://168.168.0.106"
@@ -53,6 +61,15 @@ class Common {
             output = tmp.toString() + output
             return output
         }
+
+        fun uriImgToBase64(context: Context, uri: Uri): String {
+            var bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+            val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+            return Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        }
+
     }
 
 

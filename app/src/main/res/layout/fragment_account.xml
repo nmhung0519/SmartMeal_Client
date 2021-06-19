@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorAccent"
+        android:fontFamily="@font/sriracha"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/account"
+
+
+        android:textColor="#fff"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"

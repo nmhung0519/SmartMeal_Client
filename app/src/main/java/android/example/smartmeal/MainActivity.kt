@@ -8,6 +8,7 @@ import android.example.smartmeal.account.FragmentAccount
 import android.example.smartmeal.home.FragmentHome
 import android.example.smartmeal.products.FragmentProduct
 import android.example.smartmeal.table.FragmentTable
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -44,13 +45,14 @@ class MainActivity : AppCompatActivity() {
         fun getRole(): Int {
             return roleId
         }
-        val base64Image = MutableLiveData<String>()
+        val imgPicker = MutableLiveData<Uri>()
+        var fullname = ""
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         val intent = getIntent()
         val userid = intent.getIntExtra("id", 0)
         val username = intent.getStringExtra("username")
-        val fullname = intent.getStringExtra("fullname")
+        fullname = "" + intent.getStringExtra("fullname")
         val sToken = intent.getStringExtra("token")
         roleId = intent.getIntExtra("roleId", 0)
         token.postValue("" + sToken)
@@ -143,9 +145,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (requestCode == Common.REQUEST_CODE_SELECT_IMAGE_IN_ALBUM) {
             if (resultCode == Activity.RESULT_OK) {
-                //val bytes = File(data.).readBytes()
-                //val base64 = Base64.getEncoder().encodeToString(bytes)
-                //base64Image. postValue(base64)
+                imgPicker.postValue(data?.data)
             }
         }
     }
